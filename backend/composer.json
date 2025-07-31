@@ -1,0 +1,22 @@
+{
+    "name": "worker-bee/backend",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "funkypants3d",
+            "email": "stabel@funkypants.net"
+        }
+    ],
+    "require": {
+        "psr/http-message": "^2.0",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.1",
+        "firebase/php-jwt": "^6.11",
+        "ext-pdo": "*",
+        "nyholm/psr7": "^1.8"
+    }
+}
