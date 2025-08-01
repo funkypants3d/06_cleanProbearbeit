@@ -36,11 +36,13 @@ class Router
                 http_response_code(201);
                 header('Content-Type: application/json');
                 $body = json_decode((string) $request->getBody(), true);
-                error_log("Parsed body: " . json_encode($body));
                 $author = $body['author'] ?? '';
                 $content = $body['content'] ?? '';
-                $entry = (new EntryController())->create($pdo, $author, $content);
-                echo json_encode($entry);
+
+                $controller = new EntryController();
+                $controller->create($pdo, $author, $content);
+
+                echo json_encode(['status' => 'created']);
                 exit;
             }
 

@@ -10,7 +10,7 @@ class EntryController
 {
 
 
-    public function create(PDO $pdo, string $author, string $message): EntryModel
+    public function create(PDO $pdo, string $author, string $message): void
     {
         // I decided to refactor this function because it was kind of messy
         error_log("Creating entry: $author - $message");
@@ -20,19 +20,9 @@ class EntryController
                 'author' => $author,
                 'message' => $message,
             ]);
-            $id = $pdo->lastInsertId();
-            $stmt = $pdo->prepare('SELECT * FROM entries WHERE id = :id');
-            $stmt->execute(['id' => $id]);
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            return new EntryModel($row);
         } catch (PDOException|\RuntimeException $e) {
             error_log('DB Error: ' . $e->getMessage());
-            return new EntryModel([
-                'id' => 0,
-                'author' => $author,
-                'message' => $message,
-                'created_at' => date('Y-m-d H:i:s'),
-            ]);
+            
         }
     }
 
