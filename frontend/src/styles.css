@@ -32,14 +32,10 @@
 	box-sizing: border-box;
 }
 
-body {
-    width: 100vw;
-    height: 100vh;
-}
-
 #app {
     width: 100%;
     height: 100%;
+	padding: 3rem;
 }
 
 .flex {
@@ -56,8 +52,6 @@ body {
 .flex-col {
     flex-direction: column;
 }
-
-/* insert this line so I can commit */
 
 .title{
 	width: 100%;
