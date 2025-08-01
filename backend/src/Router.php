@@ -10,9 +10,7 @@ use UserController;
 class Router
 {
 
-    public function __construct(PDO $pdo){}
-
-    public function dispatch(Request $request)
+    public function dispatch(Request $request, PDO $pdo)
     {
         $method = $request->method;
         $uri = $request->uri;
@@ -24,14 +22,13 @@ class Router
 
         // simple Router layout using if statements to decide which action to call
         if ($method === 'GET' && $uri === '/entries') {
-            return (new EntryController())->list();
+            return (new EntryController())->list($pdo);
         }
 
         if ($method === 'POST' && $uri === '/entries') {
-            return (new EntryController())->create(
-                // need to pass the author and message to this function
-                '', ''
-            );
+            $author = $request->body['author'] ?? '';
+            $content = $request->body['content']  ?? '';
+            return (new EntryController())->create($pdo, $author, $content);
         }
 
         if ($method === 'POST' && $uri === '/users') {

@@ -32,6 +32,6 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 $router = new Router($pdo);
 $request = new Request();
 
-$response = $router->dispatch($request);
+$response = $router->dispatch($request, $pdo);
 
 echo $response;
