@@ -4,6 +4,7 @@ namespace App;
 
 use PDO;
 use Exception;
+use InvalidArgumentException;
 use App\Controllers\EntryController;
 use App\Controllers\UserController;
 use Psr\Http\Message\ServerRequestInterface;
@@ -50,13 +51,21 @@ class Router
                 http_response_code(201);
                 header('Content-Type: application/json');
 
-                $body = json_decode((string) $request->getBody(), true);
-                $email = $body['email'] ?? '';
-                $password = $body['password'] ?? '';
-
-                (new UserController())->create($pdo, $email, $password);
-
-                echo json_encode(['status' => 'success']);
+                try {
+                    $body = json_decode((string) $request->getBody(), true);
+                    $email = $body['email'] ?? '';
+                    $password = $body['password'] ?? '';
+    
+                    (new UserController())->create($pdo, $email, $password);
+    
+                    echo json_encode(['status' => 'success']);
+                } catch (InvalidArgumentException $e) {
+                    http_response_code(400);
+                    echo json_encode(['error' => 'Invalid input', 'message' => $e->getMessage()]);
+                } catch (Exception $e) {
+                    http_response_code(500);
+                    echo json_encode(['error' => 'Server error']);
+                }
                 exit;
             }
 

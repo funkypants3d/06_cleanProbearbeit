@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use PDO;
+use InvalidArgumentException;
 use App\Models\UserModel;
 
 class UserController
@@ -10,6 +11,10 @@ class UserController
 
     public function create(PDO $pdo, string $email, string $password): void
     {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException('Invalid email address.');
+        }
+
         $hashed = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $pdo->prepare("INSERT INTO users (email, password) VALUES (:email, :password)");
         $stmt->execute([
