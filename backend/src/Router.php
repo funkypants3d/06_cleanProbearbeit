@@ -46,18 +46,26 @@ class Router
                 exit;
             }
 
-            if ($method === 'POST' && $uri === '/users') {
-                $email = '';
-                $password = '';
-                return (new UserController())->create($pdo, $email, $password);
+            if ($method === 'POST' && $uri === '/api/users') {
+                http_response_code(201);
+                header('Content-Type: application/json');
+
+                $body = json_decode((string) $request->getBody(), true);
+                $email = $body['email'] ?? '';
+                $password = $body['password'] ?? '';
+
+                (new UserController())->create($pdo, $email, $password);
+
+                echo json_encode(['status' => 'success']);
+                exit;
             }
 
-            if ($method === 'DELETE' && $uri === '/users') {
+            if ($method === 'DELETE' && $uri === '/api/users') {
                 $id = '960000';
                 return (new UserController())->delete($pdo, $id);
             }
 
-            if ($method === 'POST' && $uri === '/auth') {
+            if ($method === 'POST' && $uri === '/api/auth') {
                 // call static authentication method in here to keep this part of the Gästebuch simple
                 return AuthController::authenticate($request, $pdo);
             }
