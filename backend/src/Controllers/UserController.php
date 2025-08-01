@@ -1,37 +1,21 @@
-
 <?php
 
-require_once '../Models/UserModel.php';
+namespace App\Controllers;
+
+use PDO;
+use App\Models\UserModel;
 
 class UserController
 {
-    private PDO $db;
 
-    public function __construct(PDO $db)
+    public function create(PDO $pdo, string $email, string $password): UserModel
     {
-        $this->db = $db;
+        $user = new UserModel(['email' => $email, 'password' => $password]);
+        return $user;
     }
 
-    public function createUser(string $email, string $password): UserModel
+    public function delete(PDO $pdo, int $id): bool
     {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $this->db->prepare("INSERT INTO users (email, password) VALUES (:email, :password)");
-        $stmt->execute(['email' => $email, 'password' => $hash]);
-
-        $id = (int) $this->db->lastInsertId();
-        return new UserModel(['id' => $id, 'email' => $email, 'password' => $hash]);
-    }
-
-    public function getUserById(int $id): ?UserModel
-    {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
-        $stmt->execute(['id' => $id]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row ? new UserModel($row) : null;
-    }
-    public function deleteUser(int $id): bool
-    {
-        $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
-        return $stmt->execute(['id' => $id]);
+        return false;
     }
 }
