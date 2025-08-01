@@ -11,7 +11,7 @@ class UserController
     public function create(PDO $pdo, string $email, string $password): void
     {
         $hashed = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("INSERT INTO users (email, password) VALUES (:email :password)");
+        $stmt = $pdo->prepare("INSERT INTO users (email, password) VALUES (:email, :password)");
         $stmt->execute([
             'email' => $email, 
             'password' => $hashed, 
