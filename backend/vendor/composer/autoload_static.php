@@ -6,15 +6,19 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitceb5e1193a6e4be923335e1b60346b9f
 {
+    public static $files = array (
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
         ),
-        'N' => 
+        'G' => 
         array (
-            'Nyholm\\Psr7\\' => 12,
+            'GuzzleHttp\\Psr7\\' => 16,
         ),
         'F' => 
         array (
@@ -36,9 +40,9 @@ class ComposerStaticInitceb5e1193a6e4be923335e1b60346b9f
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
-        'Nyholm\\Psr7\\' => 
+        'GuzzleHttp\\Psr7\\' => 
         array (
-            0 => __DIR__ . '/..' . '/nyholm/psr7/src',
+            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
         'Firebase\\JWT\\' => 
         array (
