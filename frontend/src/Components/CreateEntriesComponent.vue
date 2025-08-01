@@ -37,6 +37,14 @@ const handleSubmit = async (e) => {
 };
 
 const sendEntry = async () => {
+	console.log(`Author: ${author.value}, Content: ${content.value}`);
+	console.log(`Sending request to '${url}/api/entries' with method 'POST'`);
+	console.log(
+		`JSON Body: ${JSON.stringify({
+			author: author.value,
+			content: content.value,
+		})}`
+	);
 	try {
 		const response = await fetch(`${url}/api/entries`, {
 			method: 'POST',
@@ -48,6 +56,8 @@ const sendEntry = async () => {
 				content: content.value,
 			}),
 		});
+
+		console.log(response);
 
 		if (response.ok) {
 			alert('Erfolgreich!');

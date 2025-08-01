@@ -2,7 +2,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use App\Router;
-use App\Http\Request;
+use GuzzleHttp\Psr7\ServerRequest;
 
 // Setup PDO according to GPT, will look more into MySQL in the future
 // Must remember that these credentials are set up in my docker compose file
@@ -29,8 +29,8 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-$router = new Router($pdo);
-$request = new Request();
+$router = new Router();
+$request = ServerRequest::fromGlobals();
 
 $response = $router->dispatch($request, $pdo);
 
