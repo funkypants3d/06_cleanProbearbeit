@@ -1,0 +1,54 @@
+I noticed that I wasnt actually using the guzzle package which I installed earlier and I also remember the commit message where I was wondering that there had to be a better way to handle http requests etc. 
+
+I want to take not of this conversation snippet I had with GPT just now:
+
+
+Me:
+I noticed, I dont think I am using guzzle after all? I am just responding using echo? Is this ok? Its working after all
+
+
+GPT: 
+Yep, that’s totally fine! Using echo to send the response body and http_response_code() to set the status code is perfectly valid in PHP for simple APIs.
+
+Guzzle is mainly a client HTTP library for making requests, not for sending responses. On the server side, plain PHP functions like echo, header(), and http_response_code() handle output and headers just fine, especially in simple setups without a full framework.
+
+If your current approach works and is clear, no need to complicate it!
+
+
+Me:
+Soo, is my current approach PSR compliant?
+
+
+GPT:
+No, your current approach (using echo and http_response_code() directly) is not fully PSR-compliant.
+
+PSR-7 (HTTP Message Interfaces) and PSR-15 (HTTP Server Request Handlers) define interfaces for immutable request and response objects, meaning you should return a Response object rather than directly output or send headers inside your controller or router.
+
+Why?
+PSR-7 promotes separation of concerns and testability by handling requests and responses as objects.
+It avoids side effects (like echo) deep inside your code.
+Middleware and frameworks can better manage the HTTP flow.
+
+What would PSR-compliant code look like?
+Instead of:
+
+http_response_code(201);
+header('Content-Type: application/json');
+echo json_encode($data);
+exit;
+
+You’d:
+
+Create a PSR-7 Response object.
+Set status, headers, and body on it.
+Return that Response object from your controller/router.
+Let a PSR-15 middleware or dispatcher emit the response.
+
+Summary
+Your current code works fine and is common in simple PHP apps.
+But it doesn’t follow PSR-7/PSR-15 best practices.
+If you want full PSR compliance, use PSR-7 Response objects instead of echo and http_response_code().
+This usually requires a framework or middleware dispatcher.
+
+
+Implementing this 'correctly' will probably be a valuable learning opportunity. 
